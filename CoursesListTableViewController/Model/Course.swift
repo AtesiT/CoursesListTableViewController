@@ -1,7 +1,5 @@
 import Foundation
 
-let courses = URL(string: "https://dummyjson.com/products")!
-
 struct Course: Decodable {
     let products: [Product]
 }
