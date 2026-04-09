@@ -14,6 +14,8 @@ final class ViewController: UIViewController {
     private var isFavorite = false
     
     override func viewDidLoad() {
+        loadFavoriteStatus()
+        setupUI()
         super.viewDidLoad()
         
     }

@@ -49,8 +49,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" alignment="center" spacing="54" translatesAutoresizingMaskIntoConstraints="NO" id="mLg-ur-BIB">
-                                <rect key="frame" x="76.666666666666686" y="209" width="240" height="435"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" alignment="center" spacing="28" translatesAutoresizingMaskIntoConstraints="NO" id="mLg-ur-BIB">
+                                <rect key="frame" x="76.666666666666686" y="209" width="240" height="383"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Course" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MTy-vg-AEE">
                                         <rect key="frame" x="92.666666666666671" y="0.0" width="54.666666666666671" height="20.333333333333332"/>
@@ -59,10 +59,10 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cTP-E9-usz">
-                                        <rect key="frame" x="0.0" y="74.333333333333343" width="240" height="240.00000000000003"/>
+                                        <rect key="frame" x="0.0" y="48.333333333333343" width="240" height="240.00000000000003"/>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" alignment="top" spacing="33" translatesAutoresizingMaskIntoConstraints="NO" id="arz-Vl-fhU">
-                                        <rect key="frame" x="0.0" y="368.33333333333337" width="239.66666666666663" height="66.666666666666686"/>
+                                        <rect key="frame" x="0.0" y="316.33333333333337" width="239.66666666666666" height="66.666666666666686"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="26" translatesAutoresizingMaskIntoConstraints="NO" id="XuP-U9-5pv">
                                                 <rect key="frame" x="0.0" y="0.0" width="152" height="66.666666666666671"/>
