@@ -8,7 +8,7 @@ class NetworkManager {
     
     private init() {}
     
-    func fetchData(completion: @escaping (_ courses: Course) -> Void) {
+    func fetchData(completion: @escaping (_ courses: [Product]) -> Void) {
         guard let url = URL(string: api) else { return }
         
         URLSession.shared.dataTask(with: url) { data, response, error in
@@ -19,9 +19,9 @@ class NetworkManager {
             
             do {
                 let decoder = JSONDecoder()
-                let courses = try decoder.decode(Course.self, from: data)
+                let response = try decoder.decode(Course.self, from: data)
                 DispatchQueue.main.async {
-                    completion(courses)
+                    completion(response.products)
                 }
             } catch let error {
                 print("You have the error:", error)

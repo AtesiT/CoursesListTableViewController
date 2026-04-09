@@ -12,7 +12,7 @@ class DataManager {
         userDefaults.set(status, forKey: courseName)
     }
     
-    func getFavoriteStatus(for courseName: String, with status: Bool) {
+    func getFavoriteStatus(for courseName: String) -> Bool {
         userDefaults.bool(forKey: courseName)
     }
 }

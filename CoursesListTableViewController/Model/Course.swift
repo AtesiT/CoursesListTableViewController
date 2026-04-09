@@ -6,13 +6,13 @@ struct Course: Decodable {
 
 struct Product: Decodable {
     let name: String
-    let imageUrl: URL
+    let imageURL: URL
     let numberOfLessons: Double
     let numberOfTests: Double
     
     enum CodingKeys: String, CodingKey {
         case name = "title"
-        case imageUrl = "thumbnail"
+        case imageURL = "thumbnail"
         case numberOfLessons = "price"
         case numberOfTests = "rating"
     }
