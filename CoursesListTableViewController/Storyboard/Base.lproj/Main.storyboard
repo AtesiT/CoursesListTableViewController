@@ -34,6 +34,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Root View Controller" id="RJT-Ac-K1C"/>
                     <connections>
+                        <outlet property="tableView" destination="7dk-ca-ZOl" id="1Nv-hX-SNo"/>
                         <segue destination="KnQ-Tf-DUA" kind="show" identifier="showDetails" id="DZf-l0-yWF"/>
                     </connections>
                 </tableViewController>

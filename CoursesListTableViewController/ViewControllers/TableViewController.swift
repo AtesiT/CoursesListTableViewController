@@ -1,11 +1,13 @@
 import UIKit
 
-final class TableViewController: UITableViewController {
+final class TableViewController: UIViewController {
+    
+    @IBOutlet var tableView: UITableView!
     
     private var activityIndicator: UIActivityIndicatorView?
+    
     //    private var courses: [Course] = []
     private var courses: [Product] = []
-    private let networkManager = NetworkManager.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,14 +53,14 @@ final class TableViewController: UITableViewController {
         
         return activityIndicator
     }
-    
-    // MARK: - TableViewDataSource
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+}
+//  MARK: - TableViewDataSource
+extension TableViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         courses.count
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CourseCell", for: indexPath)
         guard let cell = cell as? TableViewCell else { return UITableViewCell() }
         let course = courses[indexPath.row]
@@ -66,8 +68,11 @@ final class TableViewController: UITableViewController {
         
         return cell
     }
+}
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//  MARK: - TableViewDelegate
+extension TableViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let course = courses[indexPath.row]
         performSegue(withIdentifier: "showDetails", sender: course)
