@@ -10,11 +10,20 @@ final class CourseDetailsViewController: UIViewController {
     
 //    var course: Course!
     var course: Product!
+    var viewModel: CourseDetailsViewModelProtcol! {
+        //  Как только есть изменения, то будет срабатывать данные метод
+        didSet {
+            courseNameLabel.text = viewModel.courseName
+            numberOfLessonsLabel.text = viewModel.numberOfLessons
+            numberOfTestLabel.text = viewModel.numbersOfTests
+        }
+    }
     
     private var isFavorite = false
     
     override func viewDidLoad() {
         loadFavoriteStatus()
+        viewModel = CourseDetailsViewModel(course: course)
         setupUI()
         super.viewDidLoad()
         
@@ -27,9 +36,6 @@ final class CourseDetailsViewController: UIViewController {
     }
     
     private func setupUI() {
-        courseNameLabel.text = course.name
-        numberOfLessonsLabel.text = "Number of lessons: \(course.numberOfTests)"
-        numberOfTestLabel.text = "Number of tests: \(course.numberOfTests)"
         
         if let imageData = ImageManager.shared.fetchImageData(from: course.imageURL) {
             courseImage.image = UIImage(data: imageData)
