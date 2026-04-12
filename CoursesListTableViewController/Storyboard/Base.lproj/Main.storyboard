@@ -42,28 +42,28 @@
             </objects>
             <point key="canvasLocation" x="1474" y="69"/>
         </scene>
-        <!--View Controller-->
+        <!--Course Details View Controller-->
         <scene sceneID="AdF-Db-YPL">
             <objects>
-                <viewController id="KnQ-Tf-DUA" customClass="ViewController" customModule="CoursesListTableViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="KnQ-Tf-DUA" customClass="CourseDetailsViewController" customModule="CoursesListTableViewController" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="EVk-el-zrX">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" alignment="center" spacing="28" translatesAutoresizingMaskIntoConstraints="NO" id="mLg-ur-BIB">
-                                <rect key="frame" x="76.666666666666686" y="209" width="240" height="383"/>
+                                <rect key="frame" x="63.333333333333343" y="209" width="266.33333333333326" height="383"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Course" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MTy-vg-AEE">
-                                        <rect key="frame" x="92.666666666666671" y="0.0" width="54.666666666666671" height="20.333333333333332"/>
+                                        <rect key="frame" x="106.00000000000001" y="0.0" width="54.666666666666671" height="20.333333333333332"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cTP-E9-usz">
-                                        <rect key="frame" x="0.0" y="48.333333333333343" width="240" height="240.00000000000003"/>
+                                        <rect key="frame" x="13.333333333333343" y="48.333333333333343" width="240" height="240.00000000000003"/>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" alignment="top" spacing="33" translatesAutoresizingMaskIntoConstraints="NO" id="arz-Vl-fhU">
-                                        <rect key="frame" x="0.0" y="316.33333333333337" width="239.66666666666666" height="66.666666666666686"/>
+                                        <rect key="frame" x="0.0" y="316.33333333333337" width="266.33333333333331" height="66.666666666666686"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="26" translatesAutoresizingMaskIntoConstraints="NO" id="XuP-U9-5pv">
                                                 <rect key="frame" x="0.0" y="0.0" width="152" height="66.666666666666671"/>
@@ -83,9 +83,9 @@
                                                 </subviews>
                                             </stackView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NDV-3R-Ibv">
-                                                <rect key="frame" x="185" y="0.0" width="54.666666666666657" height="34.333333333333336"/>
+                                                <rect key="frame" x="185" y="0.0" width="81.333333333333314" height="34.333333333333336"/>
                                                 <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" title="Like"/>
+                                                <buttonConfiguration key="configuration" style="plain" image="heart.fill" catalog="system" title="Like"/>
                                                 <connections>
                                                     <action selector="toggleFavorite" destination="KnQ-Tf-DUA" eventType="touchUpInside" id="EXN-1Y-xJw"/>
                                                 </connections>
@@ -133,6 +133,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="heart.fill" catalog="system" width="128" height="107"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

@@ -1,6 +1,6 @@
 import UIKit
 
-final class ViewController: UIViewController {
+final class CourseDetailsViewController: UIViewController {
 
     @IBOutlet var courseNameLabel: UILabel!
     @IBOutlet var numberOfLessonsLabel: UILabel!

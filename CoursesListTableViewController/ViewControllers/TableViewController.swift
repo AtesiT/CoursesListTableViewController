@@ -18,7 +18,7 @@ final class TableViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let detailVC = segue.destination as? ViewController else { return }
+        guard let detailVC = segue.destination as? CourseDetailsViewController else { return }
         detailVC.course = sender as? Product
     }
     
