@@ -13,16 +13,17 @@ final class CourseDetailsViewController: UIViewController {
     var viewModel: CourseDetailsViewModelProtcol! {
         //  Как только есть изменения, то будет срабатывать данные метод
         didSet {
+            viewModel.viewModelDidChange = { viewModel in
+                self.setStatusForFavoriteButton(viewModel.isFavorite)
+            }
             courseNameLabel.text = viewModel.courseName
             numberOfLessonsLabel.text = viewModel.numberOfLessons
             numberOfTestLabel.text = viewModel.numbersOfTests
+            courseImage.image = UIImage(data: viewModel.imageData ?? Data())
         }
     }
     
-    private var isFavorite = false
-    
     override func viewDidLoad() {
-        loadFavoriteStatus()
         viewModel = CourseDetailsViewModel(course: course)
         setupUI()
         super.viewDidLoad()
@@ -30,25 +31,14 @@ final class CourseDetailsViewController: UIViewController {
     }
     
     @IBAction func toggleFavorite() {
-        isFavorite.toggle()
-        setStatusForFavoriteButton()
-        DataManager.shared.setFavoriteStatus(for: course.name, with: isFavorite)
+        viewModel.favoriteButtonPressed()
     }
     
     private func setupUI() {
-        
-        if let imageData = ImageManager.shared.fetchImageData(from: course.imageURL) {
-            courseImage.image = UIImage(data: imageData)
-        }
-        
-        setStatusForFavoriteButton()
+        setStatusForFavoriteButton(viewModel.isFavorite)
     }
     
-    private func setStatusForFavoriteButton() {
-        favoriteButton.tintColor = isFavorite ? .red : .gray
-    }
-    
-    private func loadFavoriteStatus() {
-        isFavorite = DataManager.shared.getFavoriteStatus(for: course.name)
+    private func setStatusForFavoriteButton(_ status: Bool) {
+        favoriteButton.tintColor = status  ? .red : .gray
     }
 }
