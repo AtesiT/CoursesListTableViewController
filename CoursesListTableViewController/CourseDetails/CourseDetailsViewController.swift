@@ -13,8 +13,8 @@ final class CourseDetailsViewController: UIViewController {
     var viewModel: CourseDetailsViewModelProtcol! {
         //  Как только есть изменения, то будет срабатывать данные метод
         didSet {
-            viewModel.viewModelDidChange = { viewModel in
-                self.setStatusForFavoriteButton(viewModel.isFavorite)
+            viewModel.viewModelDidChange = { [unowned self] viewModel in
+                setStatusForFavoriteButton(viewModel.isFavorite)
             }
             courseNameLabel.text = viewModel.courseName
             numberOfLessonsLabel.text = viewModel.numberOfLessons
@@ -40,5 +40,9 @@ final class CourseDetailsViewController: UIViewController {
     
     private func setStatusForFavoriteButton(_ status: Bool) {
         favoriteButton.tintColor = status  ? .red : .gray
+    }
+    
+    deinit {
+        print("View Controller has been deallocated")
     }
 }

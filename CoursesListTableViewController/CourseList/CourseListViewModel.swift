@@ -7,3 +7,19 @@ protocol CourseListViewModelProtcol {
     func numberOfRows() -> Int
 }
 
+class CourseListViewModel: CourseListViewModelProtcol {
+    var courses: [Product] = []
+    
+    func fetchCourses(completion: @escaping () -> Void) {
+        NetworkManager.shared.fetchData { [unowned self] courses in
+            self.courses = courses
+            completion()
+        }
+    }
+    
+    func numberOfRows() -> Int {
+        courses.count
+    }
+    
+    
+}
