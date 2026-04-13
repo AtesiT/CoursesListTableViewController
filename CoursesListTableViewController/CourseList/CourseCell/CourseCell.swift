@@ -1,6 +1,6 @@
 import UIKit
 
-final class TableViewCell: UITableViewCell {
+final class CourseCell: UITableViewCell {
     func configure(with course: Product) {
         var content = defaultContentConfiguration()
         content.text = course.name

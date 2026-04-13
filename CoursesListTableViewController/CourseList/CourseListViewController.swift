@@ -1,6 +1,6 @@
 import UIKit
 
-final class TableViewController: UIViewController {
+final class CourseListViewController: UIViewController {
     
     @IBOutlet var tableView: UITableView!
     
@@ -55,14 +55,14 @@ final class TableViewController: UIViewController {
     }
 }
 //  MARK: - TableViewDataSource
-extension TableViewController: UITableViewDataSource {
+extension CourseListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         courses.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CourseCell", for: indexPath)
-        guard let cell = cell as? TableViewCell else { return UITableViewCell() }
+        guard let cell = cell as? CourseCell else { return UITableViewCell() }
         let course = courses[indexPath.row]
         cell.configure(with: course)
         
@@ -71,7 +71,7 @@ extension TableViewController: UITableViewDataSource {
 }
     
 //  MARK: - TableViewDelegate
-extension TableViewController: UITableViewDelegate {
+extension CourseListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let course = courses[indexPath.row]
