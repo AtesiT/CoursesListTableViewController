@@ -7,24 +7,10 @@ final class CourseDetailsViewController: UIViewController {
     @IBOutlet var numberOfTestLabel: UILabel!
     @IBOutlet var courseImage: UIImageView!
     @IBOutlet var favoriteButton: UIButton!
-    
-//    var course: Course!
-    var course: Product!
-    var viewModel: CourseDetailsViewModelProtcol! {
-        //  Как только есть изменения, то будет срабатывать данные метод
-        didSet {
-            viewModel.viewModelDidChange = { [unowned self] viewModel in
-                setStatusForFavoriteButton(viewModel.isFavorite)
-            }
-            courseNameLabel.text = viewModel.courseName
-            numberOfLessonsLabel.text = viewModel.numberOfLessons
-            numberOfTestLabel.text = viewModel.numbersOfTests
-            courseImage.image = UIImage(data: viewModel.imageData ?? Data())
-        }
-    }
+ 
+    var viewModel: CourseDetailsViewModelProtcol!
     
     override func viewDidLoad() {
-        viewModel = CourseDetailsViewModel(course: course)
         setupUI()
         super.viewDidLoad()
         
@@ -36,6 +22,15 @@ final class CourseDetailsViewController: UIViewController {
     
     private func setupUI() {
         setStatusForFavoriteButton(viewModel.isFavorite)
+        
+        viewModel.viewModelDidChange = { [unowned self] viewModel in
+            setStatusForFavoriteButton(viewModel.isFavorite)
+        }
+        courseNameLabel.text = viewModel.courseName
+        numberOfLessonsLabel.text = viewModel.numberOfLessons
+        numberOfTestLabel.text = viewModel.numbersOfTests
+        courseImage.image = UIImage(data: viewModel.imageData ?? Data())
+
     }
     
     private func setStatusForFavoriteButton(_ status: Bool) {

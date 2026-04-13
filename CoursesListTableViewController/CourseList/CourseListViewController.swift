@@ -26,7 +26,7 @@ final class CourseListViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let detailVC = segue.destination as? CourseDetailsViewController else { return }
-        detailVC.course = sender as? Product
+        detailVC.viewModel = sender as? CourseDetailsViewModelProtcol
     }
     
     private func setupNavigationBar() {
@@ -54,15 +54,13 @@ final class CourseListViewController: UIViewController {
 //  MARK: - TableViewDataSource
 extension CourseListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.courses.count
+        viewModel.numberOfRows()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CourseCell", for: indexPath)
         guard let cell = cell as? CourseCell else { return UITableViewCell() }
-        let course = viewModel.courses[indexPath.row]
-        cell.configure(with: course)
-        
+        cell.viewModel = viewModel.getCourseCellViewModel(at: indexPath)
         return cell
     }
 }
@@ -71,7 +69,7 @@ extension CourseListViewController: UITableViewDataSource {
 extension CourseListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let course = viewModel.courses[indexPath.row]
-        performSegue(withIdentifier: "showDetails", sender: course)
+        let courseDetailsViewModel = viewModel.getCourseDetailsViewModel(at: indexPath)
+        performSegue(withIdentifier: "showDetails", sender: courseDetailsViewModel)
     }
 }
