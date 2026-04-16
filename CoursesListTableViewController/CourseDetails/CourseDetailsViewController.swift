@@ -21,11 +21,12 @@ final class CourseDetailsViewController: UIViewController {
     }
     
     private func setupUI() {
-        setStatusForFavoriteButton(viewModel.isFavorite)
+        setStatusForFavoriteButton(viewModel.isFavorite.value)
         
-        viewModel.viewModelDidChange = { [unowned self] viewModel in
-            setStatusForFavoriteButton(viewModel.isFavorite)
+        viewModel.isFavorite.bind { [unowned self] value in
+            setStatusForFavoriteButton(value)
         }
+        
         courseNameLabel.text = viewModel.courseName
         numberOfLessonsLabel.text = viewModel.numberOfLessons
         numberOfTestLabel.text = viewModel.numbersOfTests

@@ -5,8 +5,7 @@ protocol CourseDetailsViewModelProtcol {
     var numberOfLessons: String { get }
     var numbersOfTests: String { get }
     var imageData: Data? { get }
-    var isFavorite: Bool { get }
-    var viewModelDidChange: ((CourseDetailsViewModelProtcol) -> Void)? { get set }
+    var isFavorite: Box<Bool> { get }
     //  Для отображения данных нам понадобится экземпляр модели, поэтому необходим инициализатор
     init(course: Product)
     func favoriteButtonPressed()
@@ -30,26 +29,18 @@ class CourseDetailsViewModel: CourseDetailsViewModelProtcol {
         ImageManager.shared.fetchImageData(from: course.imageURL)
     }
     
-    var viewModelDidChange: ((any CourseDetailsViewModelProtcol) -> Void)?
+    var isFavorite: Box<Bool>
     
-    var isFavorite: Bool {
-        get {
-            DataManager.shared.getFavoriteStatus(for: course.name)
-        } set {
-            DataManager.shared.setFavoriteStatus(for: course.name, with: newValue)
-            //  Возвращаем обновлённое состояние модели
-            viewModelDidChange?(self)
-        }
-    }
     //  Делаем приватным, т.к. View знает про свою модель представления, View обращается к своей модели представления напрямую, но при этом View не должна знать про свою модель, поэтому мы прячем её.
     private let course: Product
     
     required init(course: Product) {
         self.course = course
+        isFavorite = Box(value: DataManager.shared.getFavoriteStatus(for: course.name))
     }
     
     func favoriteButtonPressed() {
-        isFavorite.toggle()
+        isFavorite.value.toggle()
+        DataManager.shared.setFavoriteStatus(for: course.name, with: isFavorite.value)
     }
-
 }
