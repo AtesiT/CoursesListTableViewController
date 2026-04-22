@@ -1,44 +1,66 @@
 import UIKit
 
-final class CourseDetailsViewController: UIViewController {
+protocol CourseDetailsViewInputProtocol: AnyObject {
+    
+}
 
+protocol CourseDetailsViewOutputProtocol {
+    init(view: CourseDetailsViewInputProtocol)
+    func showDetails()
+}
+
+final class CourseDetailsViewController: UIViewController {
+    
     @IBOutlet var courseNameLabel: UILabel!
     @IBOutlet var numberOfLessonsLabel: UILabel!
     @IBOutlet var numberOfTestLabel: UILabel!
     @IBOutlet var courseImage: UIImageView!
     @IBOutlet var favoriteButton: UIButton!
- 
+    
+    var course: Course!
+    var presenter: CourseDetailsViewOutputProtocol!
+    var configurator: CourseDetailsConfiguratorInputProtocol = CourseDetailsConfigurator!
+    
+    private var isFavorite = false
+    
     var viewModel: CourseDetailsViewModelProtcol!
     
     override func viewDidLoad() {
-        setupUI()
         super.viewDidLoad()
-        
+        configurator.configure(withView: self, and: course)
+        loadFavoriteStatus()
+        setupUI()
+        presenter.showDetails()
     }
     
     @IBAction func toggleFavorite() {
-        viewModel.favoriteButtonPressed()
+        isFavorite.toggle()
+        setStatusForFavoriteButton()
+        DataManager.shared.setFavoriteStatus(for: course.name, with: isFavorite)
     }
     
     private func setupUI() {
-        setStatusForFavoriteButton(viewModel.isFavorite.value)
+        courseNameLabel.text = course.name
+        numberOfLessonsLabel.text = "Number of lessons: \(course.numberOfLessons)"
+        numberOfTestLabel.text = "Number of tests: \(course.numberOfTests)"
         
-        viewModel.isFavorite.bind { [unowned self] value in
-            setStatusForFavoriteButton(value)
+        if let imageData = ImageManager.shared.fetchImageData(from: course.imageURL) {
+            courseImage.image = UIImage(data: imageData)
         }
         
-        courseNameLabel.text = viewModel.courseName
-        numberOfLessonsLabel.text = viewModel.numberOfLessons
-        numberOfTestLabel.text = viewModel.numbersOfTests
-        courseImage.image = UIImage(data: viewModel.imageData ?? Data())
+        setStatusForFavoriteButton()
+    }
+    
+    private func setStatusForFavoriteButton() {
+        favoriteButton.tintColor = isFavorite ? .red : .gray
+    }
+    
+    private func loadFavoriteStatus() {
+        isFavorite = DataManager.shared.getFavoriteStatus(for: course.name)
+    }
+}
 
-    }
+//  MARK: - CourseDetailsViewInputProtocol
+extension CourseDetailsViewController: CourseDetailsViewInputProtocol {
     
-    private func setStatusForFavoriteButton(_ status: Bool) {
-        favoriteButton.tintColor = status  ? .red : .gray
-    }
-    
-    deinit {
-        print("View Controller has been deallocated")
-    }
 }
