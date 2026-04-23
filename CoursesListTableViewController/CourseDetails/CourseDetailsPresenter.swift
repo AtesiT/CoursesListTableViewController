@@ -1,7 +1,7 @@
 import Foundation
 
 struct CourseDetailsDataStore {
-    
+    let courseName: String
 }
 
 class CourseDetailsPresenter: CourseDetailsViewOutputProtocol {
@@ -13,11 +13,13 @@ class CourseDetailsPresenter: CourseDetailsViewOutputProtocol {
     }
     
     func showDetails() {
-        
+        interactor.provideCourseDetails()
     }
 }
 
 //  MARK: - CourseDetailsInteractorOutputProtocol
 extension CourseDetailsPresenter: CourseDetailsInteractorOutputProtocol {
-    
+    func recieveCourseDetails(with dataStore: CourseDetailsDataStore) {
+        view.displayCourseName(with: dataStore.courseName)
+    }
 }

@@ -6,6 +6,7 @@ protocol CourseDetailsInteractorInputProtocol {
 }
 
 protocol CourseDetailsInteractorOutputProtocol: AnyObject {
+    func recieveCourseDetails(with dataStore: CourseDetailsDataStore)
 }
 
 class CourseDetailsInteractor: CourseDetailsInteractorInputProtocol {
@@ -18,6 +19,7 @@ class CourseDetailsInteractor: CourseDetailsInteractorInputProtocol {
     }
     
     func provideCourseDetails() {
-        
+        let dataStore = CourseDetailsDataStore(course: course.name)
+        presenter.recieveCourseDetails(with: dataStore)
     }
 }
