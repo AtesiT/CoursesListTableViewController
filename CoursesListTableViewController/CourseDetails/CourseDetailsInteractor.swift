@@ -19,7 +19,11 @@ class CourseDetailsInteractor: CourseDetailsInteractorInputProtocol {
     }
     
     func provideCourseDetails() {
-        let dataStore = CourseDetailsDataStore(course: course.name)
+        let dataStore = CourseDetailsDataStore(
+            courseName: course.name,
+            numberOfLessons: course.numberOfLessons,
+            numberOfTests: course.numberOfTests
+        )
         presenter.recieveCourseDetails(with: dataStore)
     }
 }
