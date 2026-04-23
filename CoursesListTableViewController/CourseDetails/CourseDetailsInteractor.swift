@@ -19,10 +19,13 @@ class CourseDetailsInteractor: CourseDetailsInteractorInputProtocol {
     }
     
     func provideCourseDetails() {
+        let imageData = ImageManager.shared.fetchImageData(from: course.imageURL)
+        
         let dataStore = CourseDetailsDataStore(
             courseName: course.name,
             numberOfLessons: course.numberOfLessons,
-            numberOfTests: course.numberOfTests
+            numberOfTests: course.numberOfTests,
+            imageData: imageData
         )
         presenter.recieveCourseDetails(with: dataStore)
     }

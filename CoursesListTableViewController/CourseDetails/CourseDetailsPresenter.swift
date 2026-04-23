@@ -4,6 +4,8 @@ struct CourseDetailsDataStore {
     let courseName: String
     let numberOfLessons: Int
     let numberOfTests: Int
+    //  Данные загружаются из сети и поэтому данные опциональны
+    let imageData: Data?
 }
 
 class CourseDetailsPresenter: CourseDetailsViewOutputProtocol {
@@ -28,5 +30,8 @@ extension CourseDetailsPresenter: CourseDetailsInteractorOutputProtocol {
         view.displayCourseName(with: dataStore.courseName)
         view.displayNumberOfLessons(with: numberOfLessons)
         view.displayNumberOfTests(with: numberOfTests)
+        
+        guard let imageData = dataStore.imageData else { return }
+        view.displayImageData(with: imageData)
     }
 }

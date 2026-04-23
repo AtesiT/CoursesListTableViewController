@@ -4,6 +4,7 @@ protocol CourseDetailsViewInputProtocol: AnyObject {
     func displayCourseName(with title: String)
     func displayNumberOfLessons(with title: String)
     func displayNumberOfTests(with title: String)
+    func displayImageData(with ImageData: Data)
     
 }
 
@@ -43,10 +44,6 @@ final class CourseDetailsViewController: UIViewController {
     }
     
     private func setupUI() {
-        if let imageData = ImageManager.shared.fetchImageData(from: course.imageURL) {
-            courseImage.image = UIImage(data: imageData)
-        }
-        
         setStatusForFavoriteButton()
     }
     
@@ -71,5 +68,9 @@ extension CourseDetailsViewController: CourseDetailsViewInputProtocol {
     
     func displayNumberOfTests(with title: String) {
         numberOfTestLabel.text = title
+    }
+    
+    func displayImageData(with ImageData: Data) {
+        courseImage.image = UIImage(data: ImageData)
     }
 }
