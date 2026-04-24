@@ -4,6 +4,9 @@ final class CourseListViewController: UIViewController {
     
     @IBOutlet var tableView: UITableView!
     
+    private let configurator: CourseListConfiguratorInputProtocol = CourseListConfigurator()
+    
+    
     private var activityIndicator: UIActivityIndicatorView?
     
     private var viewModel: CourseListViewModelProtcol! {
@@ -18,10 +21,12 @@ final class CourseListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configurator.configure(withView: self)
         viewModel = CourseListViewModel()
         tableView.rowHeight = 100
         activityIndicator = showActivityIndicator(in: view)
         setupNavigationBar()
+        presenter.viewDidLoad()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
