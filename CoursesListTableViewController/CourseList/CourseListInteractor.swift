@@ -17,6 +17,9 @@ class CourseListInteractor: CourseListInteractorInputProtocol {
     }
     
     func fetchCourses() {
-        
+        NetworkManager.shared.fetchData { [unowned self] courses in
+            let dataStore = CourseListDataStore(courses: courses)
+            presenter.coursesDidReceive(with: dataStore)
+        }
     }
 }

@@ -24,6 +24,7 @@ class CourseListPresenter: CourseListViewOutputProtocol {
 //  MARK: - CourseListInteractorOutputProtocol
 extension CourseListPresenter: CourseListInteractorOutputProtocol {
     func coursesDidReceive(with dataStore: CourseListDataStore) {
-        
+        self.dataStore = dataStore
+        view.display(courses: dataStore.courses)
     }
 }

@@ -1,13 +1,17 @@
 import UIKit
 
+protocol CourseListViewInputProtocol: AnyObject {
+    func display(courses: [Course])
+}
+
 final class CourseListViewController: UIViewController {
     
     @IBOutlet var tableView: UITableView!
     
     private let configurator: CourseListConfiguratorInputProtocol = CourseListConfigurator()
     
-    
     private var activityIndicator: UIActivityIndicatorView?
+    private var courses: [Course] = []
     
     private var viewModel: CourseListViewModelProtcol! {
         didSet {
@@ -31,7 +35,7 @@ final class CourseListViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let detailVC = segue.destination as? CourseDetailsViewController else { return }
-        detailVC.viewModel = sender as? CourseDetailsViewModelProtcol
+        detailVC.viewModel = sender as? Course
     }
     
     private func setupNavigationBar() {
@@ -59,13 +63,15 @@ final class CourseListViewController: UIViewController {
 //  MARK: - TableViewDataSource
 extension CourseListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.numberOfRows()
+        courses.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CourseCell", for: indexPath)
         guard let cell = cell as? CourseCell else { return UITableViewCell() }
-        cell.viewModel = viewModel.getCourseCellViewModel(at: indexPath)
+        let course = courses[indexPath.row]
+        cell.configure(with: course)
+        
         return cell
     }
 }
@@ -75,6 +81,14 @@ extension CourseListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let courseDetailsViewModel = viewModel.getCourseDetailsViewModel(at: indexPath)
-        performSegue(withIdentifier: "showDetails", sender: courseDetailsViewModel)
+        performSegue(withIdentifier: "showDetails", sender: courses)
+    }
+}
+
+extension CourseListViewController: CourseListViewInputProtocol {
+    func display(courses: [Course]) {
+        self.courses = courses
+        tableView.reloadData()
+        activityIndicator?.stopAnimating()
     }
 }
