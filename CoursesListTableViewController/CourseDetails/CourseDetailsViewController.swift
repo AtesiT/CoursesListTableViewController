@@ -11,6 +11,7 @@ protocol CourseDetailsViewInputProtocol: AnyObject {
 protocol CourseDetailsViewOutputProtocol {
     init(view: CourseDetailsViewInputProtocol)
     func showDetails()
+    func favoriteButtonPressed()
 }
 
 final class CourseDetailsViewController: UIViewController {
@@ -34,7 +35,7 @@ final class CourseDetailsViewController: UIViewController {
     }
     
     @IBAction func toggleFavorite() {
-        
+        presenter.favoriteButtonPressed()
     }
 }
 

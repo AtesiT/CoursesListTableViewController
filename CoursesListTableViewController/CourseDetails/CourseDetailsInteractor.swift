@@ -4,15 +4,21 @@ protocol CourseDetailsInteractorInputProtocol {
     var isFavorite: Bool { get }
     init(presenter: CourseDetailsInteractorInputProtocol, course: Course)
     func provideCourseDetails()
+    func toggleFavoriteStatus()
 }
 
 protocol CourseDetailsInteractorOutputProtocol: AnyObject {
     func recieveCourseDetails(with dataStore: CourseDetailsDataStore)
+    func receiveFavoriteStatus(with status: Bool)
 }
 
 class CourseDetailsInteractor: CourseDetailsInteractorInputProtocol {
     var isFavorite: Bool {
-        DataManager.shared.getFavoriteStatus(for: course.name)
+        get {
+            DataManager.shared.getFavoriteStatus(for: course.name)
+        } set {
+            DataManager.shared.setFavoriteStatus(for: course.name, with: newValue)
+        }
     }
     
     private unowned let presenter: CourseDetailsInteractorOutputProtocol
@@ -34,5 +40,10 @@ class CourseDetailsInteractor: CourseDetailsInteractorInputProtocol {
             isFavorite: isFavorite
         )
         presenter.recieveCourseDetails(with: dataStore)
+    }
+    
+    func toggleFavoriteStatus() {
+        isFavorite.toggle()
+        presenter.receiveFavoriteStatus(with: isFavorite)
     }
 }
