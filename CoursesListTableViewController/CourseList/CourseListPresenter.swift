@@ -25,6 +25,12 @@ class CourseListPresenter: CourseListViewOutputProtocol {
 extension CourseListPresenter: CourseListInteractorOutputProtocol {
     func coursesDidReceive(with dataStore: CourseListDataStore) {
         self.dataStore = dataStore
-        view.display(courses: dataStore.courses)
+        let section = CourseSectionViewModel()
+//        for course in dataStore.courses {
+//            let courseCellViewModel = CourseCellViewModel(course: course)
+//            section.rows.append(courseCellViewModel)
+//        }
+        dataStore.courses.forEach { section.rows.append(CourseCellViewModel(course: $0))}
+        view.reloadData(for: section)
     }
 }

@@ -1,13 +1,13 @@
 import UIKit
 
 protocol CellModelRepresentable {
-    var viewModel: CourseSectionViewModelProtcol? { get }
+    var viewModel: CourseCellViewModelProtcol? { get }
 }
 
 
 
 final class CourseCell: UITableViewCell, CellModelRepresentable {
-    var viewModel: CourseSectionViewModelProtcol? {
+    var viewModel: CourseCellViewModelProtcol? {
         didSet {
             updateView()
         }
