@@ -6,6 +6,7 @@ struct CourseDetailsDataStore {
     let numberOfTests: Int
     //  Данные загружаются из сети и поэтому данные опциональны
     let imageData: Data?
+    let isFavorite: Bool
 }
 
 class CourseDetailsPresenter: CourseDetailsViewOutputProtocol {
@@ -30,6 +31,7 @@ extension CourseDetailsPresenter: CourseDetailsInteractorOutputProtocol {
         view.displayCourseName(with: dataStore.courseName)
         view.displayNumberOfLessons(with: numberOfLessons)
         view.displayNumberOfTests(with: numberOfTests)
+        view.displayImageForFavoriteButton(with: dataStore.isFavorite)
         
         guard let imageData = dataStore.imageData else { return }
         view.displayImageData(with: imageData)

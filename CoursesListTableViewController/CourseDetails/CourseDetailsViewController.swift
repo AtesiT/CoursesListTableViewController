@@ -5,7 +5,7 @@ protocol CourseDetailsViewInputProtocol: AnyObject {
     func displayNumberOfLessons(with title: String)
     func displayNumberOfTests(with title: String)
     func displayImageData(with ImageData: Data)
-    
+    func displayImageForFavoriteButton(with status: Bool)
 }
 
 protocol CourseDetailsViewOutputProtocol {
@@ -25,34 +25,16 @@ final class CourseDetailsViewController: UIViewController {
     var presenter: CourseDetailsViewOutputProtocol!
     var configurator: CourseDetailsConfiguratorInputProtocol = CourseDetailsConfigurator!
     
-    private var isFavorite = false
-    
     var viewModel: CourseDetailsViewModelProtcol!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configurator.configure(withView: self, and: course)
-        loadFavoriteStatus()
-        setupUI()
         presenter.showDetails()
     }
     
     @IBAction func toggleFavorite() {
-        isFavorite.toggle()
-        setStatusForFavoriteButton()
-        DataManager.shared.setFavoriteStatus(for: course.name, with: isFavorite)
-    }
-    
-    private func setupUI() {
-        setStatusForFavoriteButton()
-    }
-    
-    private func setStatusForFavoriteButton() {
-        favoriteButton.tintColor = isFavorite ? .red : .gray
-    }
-    
-    private func loadFavoriteStatus() {
-        isFavorite = DataManager.shared.getFavoriteStatus(for: course.name)
+        
     }
 }
 
@@ -72,5 +54,9 @@ extension CourseDetailsViewController: CourseDetailsViewInputProtocol {
     
     func displayImageData(with ImageData: Data) {
         courseImage.image = UIImage(data: ImageData)
+    }
+    
+    func displayImageForFavoriteButton(with status: Bool) {
+        favoriteButton.tintColor = status ? .red : .gray
     }
 }

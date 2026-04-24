@@ -1,6 +1,7 @@
 import Foundation
 
 protocol CourseDetailsInteractorInputProtocol {
+    var isFavorite: Bool { get }
     init(presenter: CourseDetailsInteractorInputProtocol, course: Course)
     func provideCourseDetails()
 }
@@ -10,6 +11,10 @@ protocol CourseDetailsInteractorOutputProtocol: AnyObject {
 }
 
 class CourseDetailsInteractor: CourseDetailsInteractorInputProtocol {
+    var isFavorite: Bool {
+        DataManager.shared.getFavoriteStatus(for: course.name)
+    }
+    
     private unowned let presenter: CourseDetailsInteractorOutputProtocol
     private let course: Course
     
@@ -25,7 +30,8 @@ class CourseDetailsInteractor: CourseDetailsInteractorInputProtocol {
             courseName: course.name,
             numberOfLessons: course.numberOfLessons,
             numberOfTests: course.numberOfTests,
-            imageData: imageData
+            imageData: imageData,
+            isFavorite: isFavorite
         )
         presenter.recieveCourseDetails(with: dataStore)
     }
