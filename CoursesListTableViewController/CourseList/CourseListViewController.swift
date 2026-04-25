@@ -4,6 +4,12 @@ protocol CourseListViewInputProtocol: AnyObject {
     func reloadData(for section: CourseSectionViewModel )
 }
 
+protocol CourseListViewOutputProtocol {
+    init(view: CourseListViewInputProtocol)
+    func viewDidLoad()
+    func didTapCell(at indexPath: IndexPath)
+}
+
 final class CourseListViewController: UIViewController {
     
     @IBOutlet var tableView: UITableView!
@@ -35,6 +41,8 @@ final class CourseListViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let detailVC = segue.destination as? CourseDetailsViewController else { return }
+        let configurator: CourseDetailsConfiguratorInputProtocol = CourseDetailsConfigurator()
+        configurator.configure(withView: detailVC, and: sender as! Course)
         detailVC.viewModel = sender as? Course
     }
     
@@ -84,8 +92,9 @@ extension CourseListViewController: UITableViewDataSource {
 extension CourseListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let courseDetailsViewModel = viewModel.getCourseDetailsViewModel(at: indexPath)
-        performSegue(withIdentifier: "showDetails", sender: courses)
+        presenter.didTapCell(at: indexPath)
+//        let courseDetailsViewModel = viewModel.getCourseDetailsViewModel(at: indexPath)
+//        performSegue(withIdentifier: "showDetails", sender: courses)
     }
 }
 

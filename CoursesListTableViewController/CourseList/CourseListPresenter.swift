@@ -19,6 +19,11 @@ class CourseListPresenter: CourseListViewOutputProtocol {
     func viewDidLoad() {
         interactor.fetchCourses()
     }
+    
+    func didTapCell(at indexPath: IndexPath) {
+        guard let course = dataStore?.courses[indexPath.row] else { return }
+        router.openCourseDetailsViewController(with: course)
+    }
 }
 
 //  MARK: - CourseListInteractorOutputProtocol

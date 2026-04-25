@@ -22,15 +22,12 @@ final class CourseDetailsViewController: UIViewController {
     @IBOutlet var courseImage: UIImageView!
     @IBOutlet var favoriteButton: UIButton!
     
-    var course: Course!
     var presenter: CourseDetailsViewOutputProtocol!
-    var configurator: CourseDetailsConfiguratorInputProtocol = CourseDetailsConfigurator!
     
     var viewModel: CourseDetailsViewModelProtcol!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configurator.configure(withView: self, and: course)
         presenter.showDetails()
     }
     
