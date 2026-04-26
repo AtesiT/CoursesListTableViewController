@@ -1,12 +1,20 @@
-protocol CourseDetailsConfiguratorInputProtocol {
-    func configure(withView view: CourseDetailsViewController, and course: Course)
-}
+import Foundation
 
-class CourseDetailsConfigurator: CourseDetailsConfiguratorInputProtocol {
+final class CourseDetailsConfigurator: CourseDetailsConfiguratorInputProtocol {
+    static let shared = CourseDetailsConfigurator()
+    
+    private init () {}
+    
     func configure(withView view: CourseDetailsViewController, and course: Course) {
-        let presenter = CourseDetailsPresenter(view: view)
-        let interactor = CourseDetailsInteractor(presenter: presenter, course: course)
-        view.presenter = presenter
-        presenter.interactor = interactor
+        let interactor = CourseDetailsInteractor()
+        let presenter = CourseDetailsPresenter()
+        let router = CourseDetailsRouter()
+        
+        viewController.interactor = interactor
+        viewController.router = router
+        interactor.presenter = presenter
+        presenter.viewController = viewController
+        router.viewController = viewController
+        router.dataStore = interactor
     }
 }
