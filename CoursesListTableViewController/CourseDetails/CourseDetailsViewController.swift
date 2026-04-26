@@ -1,60 +1,74 @@
 import UIKit
-
-protocol CourseDetailsViewInputProtocol: AnyObject {
-    func displayCourseName(with title: String)
-    func displayNumberOfLessons(with title: String)
-    func displayNumberOfTests(with title: String)
-    func displayImageData(with ImageData: Data)
-    func displayImageForFavoriteButton(with status: Bool)
+protocol CourseDetailsDisplayLogic: AnyObject {
+    func displayCourseDetails(viewModel: CourseDetails.ShowDetails.ViewModel)
 }
 
-protocol CourseDetailsViewOutputProtocol {
-    init(view: CourseDetailsViewInputProtocol)
-    func showDetails()
-    func favoriteButtonPressed()
-}
-
-final class CourseDetailsViewController: UIViewController {
+class CourseDetailsViewController: UIViewController, CourseDetailsDisplayLogic {
+    @IBOutlet private var courseImageView: UIImageView!
+    @IBOutlet private var courseNameLabel: UILabel!
+    @IBOutlet private var numberOfLessonsLabel: UILabel!
+    @IBOutlet private var numberOfTestsLabel: UILabel!
+    @IBOutlet private var favoriteButton: UIButton!
     
-    @IBOutlet var courseNameLabel: UILabel!
-    @IBOutlet var numberOfLessonsLabel: UILabel!
-    @IBOutlet var numberOfTestLabel: UILabel!
-    @IBOutlet var courseImage: UIImageView!
-    @IBOutlet var favoriteButton: UIButton!
+    var course: Course!
+    var interactor: CourseDetailsBusinessLogic?
+    var router: (NSObjectProtocol & CourseDetailsRoutingLogic & CourseDetailsDataPassing)?
+    private var isFavorite = false
     
-    var presenter: CourseDetailsViewOutputProtocol!
+    // MARK: Object lifecycle
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        CourseDetailsConfigurator.shared.configure(with: self)
+    }
     
-    var viewModel: CourseDetailsViewModelProtcol!
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        CourseDetailsConfigurator.shared.configure(with: self)
+    }
     
+    // MARK: - View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter.showDetails()
+        loadFavoriteStatus()
+        setupUI()
+        passRequest()
     }
-    
-    @IBAction func toggleFavorite() {
-        presenter.favoriteButtonPressed()
-    }
-}
 
-//  MARK: - CourseDetailsViewInputProtocol
-extension CourseDetailsViewController: CourseDetailsViewInputProtocol {
-    func displayCourseName(with title: String) {
-        courseNameLabel.text = title
+    @IBAction func toggleFavorite() {
+        isFavorite.toggle()
+        setStatusForFavoriteButton()
+        DataManager.shared.setFavoriteStatus(for: course.name, with: isFavorite)
     }
-    
-    func displayNumberOfLessons(with title: String) {
-        numberOfLessonsLabel.text = title
+
+    private func passRequest() {
+        let request = CourseDetails.ShowDetails.Request()
+        interactor?.provideCourseDetails(request: request)
     }
+
+    private func setupUI() {
+        courseNameLabel.text = course.name
+        numberOfLessonsLabel.text = "Number of lessons: \(course.numberOfLessons)"
+        numberOfTestsLabel.text = "Number of tests: \(course.numberOfTests)"
+        }
     
-    func displayNumberOfTests(with title: String) {
-        numberOfTestLabel.text = title
+        if let imageData = ImageManager.shared.fetchImageData(from: course.imageUrl) {
+            courseImage.image = UIImage(data: imageData)
+        }
+
+        setStatusForFavoriteButton()
     }
-    
-    func displayImageData(with ImageData: Data) {
-        courseImage.image = UIImage(data: ImageData)
+
+    private func setStatusForFavoriteButton() {
+        favoriteButton.tintColor = isFavorite ? .red : .gray
     }
-    
-    func displayImageForFavoriteButton(with status: Bool) {
-        favoriteButton.tintColor = status ? .red : .gray
+
+    private func loadFavoriteStatus() {
+        isFavorite = DataManager.shared.getFavoriteStatus(for: course.name)
+    }
+
+    extension CourseDetailsViewController: CourseDetailsDisplayLogic {
+        func displayCourseDetails(viewModel: CourseDetails.ShowDetails.ViewModel) {
+            
+        }
     }
 }
