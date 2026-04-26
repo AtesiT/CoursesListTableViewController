@@ -1,49 +1,21 @@
-import Foundation
-
-protocol CourseDetailsInteractorInputProtocol {
-    var isFavorite: Bool { get }
-    init(presenter: CourseDetailsInteractorInputProtocol, course: Course)
-    func provideCourseDetails()
-    func toggleFavoriteStatus()
+protocol CourseDetailsBusinessLogic {
+    func provideCourseDetails(request: CourseDetails.ShowDetails.Request)
 }
 
-protocol CourseDetailsInteractorOutputProtocol: AnyObject {
-    func recieveCourseDetails(with dataStore: CourseDetailsDataStore)
-    func receiveFavoriteStatus(with status: Bool)
+protocol CourseDetailsDataStore {
+    
 }
 
-class CourseDetailsInteractor: CourseDetailsInteractorInputProtocol {
-    var isFavorite: Bool {
-        get {
-            DataManager.shared.getFavoriteStatus(for: course.name)
-        } set {
-            DataManager.shared.setFavoriteStatus(for: course.name, with: newValue)
-        }
-    }
+class CourseDetailsInteractor: CourseDetailsBusinessLogic, CourseDetailsDataStore {
     
-    private unowned let presenter: CourseDetailsInteractorOutputProtocol
-    private let course: Course
-    
-    required init(presenter: CourseDetailsInteractorOutputProtocol, course: Course) {
-        self.presenter = presenter
-        self.course = course
-    }
-    
-    func provideCourseDetails() {
-        let imageData = ImageManager.shared.fetchImageData(from: course.imageURL)
-        
-        let dataStore = CourseDetailsDataStore(
-            courseName: course.name,
-            numberOfLessons: course.numberOfLessons,
-            numberOfTests: course.numberOfTests,
-            imageData: imageData,
-            isFavorite: isFavorite
-        )
-        presenter.recieveCourseDetails(with: dataStore)
-    }
-    
-    func toggleFavoriteStatus() {
-        isFavorite.toggle()
-        presenter.receiveFavoriteStatus(with: isFavorite)
+    var presenter: CourseDetailsPresentationLogic?
+    var worker: CourseDetailsWorker?
+
+    func provideCourseDetails(request: CourseDetails.ShowDetails.Request) {
+        worker = CourseDetailsWorker()
+        worker?.doSomeWork()
+
+        let response = CourseDetails.ShowDetails.Response()
+        presenter?.presentCourseDetails(response: response)
     }
 }
