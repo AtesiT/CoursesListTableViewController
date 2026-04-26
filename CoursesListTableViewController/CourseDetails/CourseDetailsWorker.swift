@@ -1,0 +1,5 @@
+class CourseDetailsWorker {
+    func doSomeWork() {
+        
+    }
+}
