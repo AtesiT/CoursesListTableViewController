@@ -3,7 +3,7 @@ protocol CourseDetailsBusinessLogic {
 }
 
 protocol CourseDetailsDataStore {
-    
+    var course: Course? { get }
 }
 
 class CourseDetailsInteractor: CourseDetailsBusinessLogic, CourseDetailsDataStore {
@@ -12,10 +12,11 @@ class CourseDetailsInteractor: CourseDetailsBusinessLogic, CourseDetailsDataStor
     var worker: CourseDetailsWorker?
 
     func provideCourseDetails(request: CourseDetails.ShowDetails.Request) {
+        course = request.course
         worker = CourseDetailsWorker()
         worker?.doSomeWork()
 
-        let response = CourseDetails.ShowDetails.Response()
+        let response = CourseDetails.ShowDetails.Response(courseName: request.course?.name)
         presenter?.presentCourseDetails(response: response)
     }
 }

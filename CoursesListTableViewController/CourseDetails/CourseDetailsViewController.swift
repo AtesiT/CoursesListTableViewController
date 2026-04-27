@@ -41,12 +41,11 @@ class CourseDetailsViewController: UIViewController, CourseDetailsDisplayLogic {
     }
 
     private func passRequest() {
-        let request = CourseDetails.ShowDetails.Request()
+        let request = CourseDetails.ShowDetails.Request(course: course)
         interactor?.provideCourseDetails(request: request)
     }
 
     private func setupUI() {
-        courseNameLabel.text = course.name
         numberOfLessonsLabel.text = "Number of lessons: \(course.numberOfLessons)"
         numberOfTestsLabel.text = "Number of tests: \(course.numberOfTests)"
         }
@@ -68,7 +67,7 @@ class CourseDetailsViewController: UIViewController, CourseDetailsDisplayLogic {
 
     extension CourseDetailsViewController: CourseDetailsDisplayLogic {
         func displayCourseDetails(viewModel: CourseDetails.ShowDetails.ViewModel) {
-            
+            courseNameLabel.text = viewModel.courseName
         }
     }
 }
