@@ -45,13 +45,7 @@ class CourseDetailsViewController: UIViewController, CourseDetailsDisplayLogic {
         interactor?.provideCourseDetails(request: request)
     }
 
-    private func setupUI() {
-        }
-    
-        if let imageData = ImageManager.shared.fetchImageData(from: course.imageUrl) {
-            courseImage.image = UIImage(data: imageData)
-        }
-
+    private func setupUI() {    
         setStatusForFavoriteButton()
     }
 
@@ -68,6 +62,7 @@ class CourseDetailsViewController: UIViewController, CourseDetailsDisplayLogic {
             courseNameLabel.text = viewModel.courseName
             numberOfLessonsLabel.text = viewModel.numberOfLessons
             numberOfTestsLabel.text = viewModel.numberOfTests
+            courseImage.image = UIImage(data: viewModel.imageData)
         }
     }
 }

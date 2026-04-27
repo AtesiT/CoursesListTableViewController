@@ -1,5 +1,7 @@
+import Foundation
+
 class CourseDetailsWorker {
-    func doSomeWork() {
-        
+    func getImage(from ImageURL: URL?) -> Data? {
+        ImageManager.shared.fetchImageData(from: ImageURL)
     }
 }

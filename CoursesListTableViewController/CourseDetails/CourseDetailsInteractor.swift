@@ -1,3 +1,5 @@
+import Foundation
+
 protocol CourseDetailsBusinessLogic {
     func provideCourseDetails(request: CourseDetails.ShowDetails.Request)
 }
@@ -14,12 +16,13 @@ class CourseDetailsInteractor: CourseDetailsBusinessLogic, CourseDetailsDataStor
     func provideCourseDetails(request: CourseDetails.ShowDetails.Request) {
         course = request.course
         worker = CourseDetailsWorker()
-        worker?.doSomeWork()
+        let imageData = worker?.getImage(from: course.imageURL)
 
         let response = CourseDetails.ShowDetails.Response(
             courseName: request.course?.name,
             numberOfLessons: course?.numberOfLessons,
             numberOfTests: course?.numberOfTests,
+            imageData: imageData
         )
         presenter?.presentCourseDetails(response: response)
     }

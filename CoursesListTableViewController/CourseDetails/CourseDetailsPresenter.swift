@@ -1,3 +1,5 @@
+import Foundation
+
 protocol CourseDetailsPresentationLogic {
     func presentCourseDetails(response: CourseDetails.ShowDetails.Response)
 }
@@ -12,7 +14,8 @@ class CourseDetailsPresenter: CourseDetailsPresentationLogic {
         let viewModel = CourseDetails.ShowDetails.ViewModel(
             courseName: response.courseName ?? "",
             numberOfLessons: numberOfLessons,
-            NumberOfTests: numberOfTests
+            numberOfTests: numberOfTests,
+            imageData: response.imageData ?? Data()
         )
         viewController?.displayCourseDetails(viewModel: viewModel)
     }
