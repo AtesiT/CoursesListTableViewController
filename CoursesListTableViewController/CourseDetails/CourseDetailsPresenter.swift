@@ -2,6 +2,7 @@ import Foundation
 
 protocol CourseDetailsPresentationLogic {
     func presentCourseDetails(response: CourseDetails.ShowDetails.Response)
+    func presentFavoriteStatus(response: CourseDetails.SetFavoriteStatus.Response)
 }
 
 class CourseDetailsPresenter: CourseDetailsPresentationLogic {
@@ -19,5 +20,10 @@ class CourseDetailsPresenter: CourseDetailsPresentationLogic {
             isFavorite: response.isFavorite
         )
         viewController?.displayCourseDetails(viewModel: viewModel)
+    }
+    
+    func presentFavoriteStatus(response: CourseDetails.SetFavoriteStatus.Response) {
+        let viewModel = CourseDetails.SetFavoriteStatus.ViewModel(isFavorite: response.isFavorite)
+        viewController?.displayFavoriteButtonStatus(viewModel: viewModel)
     }
 }

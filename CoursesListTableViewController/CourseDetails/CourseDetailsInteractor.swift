@@ -2,6 +2,7 @@ import Foundation
 
 protocol CourseDetailsBusinessLogic {
     func provideCourseDetails(request: CourseDetails.ShowDetails.Request)
+    func setFavoriteStatus()
 }
 
 protocol CourseDetailsDataStore {
@@ -29,5 +30,13 @@ class CourseDetailsInteractor: CourseDetailsBusinessLogic, CourseDetailsDataStor
             isFavorite: isFavorite
         )
         presenter?.presentCourseDetails(response: response)
+    }
+    
+    func setFavoriteStatus() {
+        isFavorite.toggle()
+        worker?.setNewFavoriteStatus(for: course?.name ?? "", with: isFavorite)
+        
+        let response = CourseDetails.SetFavoriteStatus.Response(isFavorite: isFavorite)
+        presenter?.presentFavoriteStatus(response: response)
     }
 }

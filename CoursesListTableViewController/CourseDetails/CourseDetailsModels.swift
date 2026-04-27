@@ -24,4 +24,14 @@ enum CourseDetailsModels {
             let isFavorite: Bool
         }
     }
+    
+    enum SetFavoriteStatus {
+        struct Response {
+            let isFavorite: Bool
+        }
+        
+        struct ViewModel {
+            let isFavorite: Bool
+        }
+    }
 }

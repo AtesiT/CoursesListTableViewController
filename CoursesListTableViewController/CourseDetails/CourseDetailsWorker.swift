@@ -8,4 +8,8 @@ class CourseDetailsWorker {
     func getFavoriteStatus(for courseName: String ) -> Bool {
         DataManager.shared.getFavoriteStatus(for: courseName)
     }
+    
+    func setNewFavoriteStatus(for courseName: String, with status: Bool) {
+        DataManager.shared.setFavoriteStatus(for: courseName, with: status)
+    }
 }
