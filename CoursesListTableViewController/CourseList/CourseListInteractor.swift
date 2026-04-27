@@ -1,25 +1,17 @@
-import Foundation
-
-protocol CourseListInteractorInputProtocol {
-    init(presenter: CourseListInteractorOutputProtocol)
+protocol CourseListBusinessLogic {
     func fetchCourses()
 }
 
-protocol CourseListInteractorOutputProtocol {
-    func coursesDidReceive(with dataStore: CourseListDataStore)
+protocol CourseListDataStore {
+    
 }
 
-class CourseListInteractor: CourseListInteractorInputProtocol {
-    private unowned let presenter: CourseListInteractorOutputProtocol
+class CourseListInteractor: CourseListBusinessLogic, CourseListDataStore {
     
-    required init(presenter: CourseListInteractorOutputProtocol) {
-        self.presenter = presenter
-    }
+    var presenter: CourseListPresentationLogic?
     
     func fetchCourses() {
-        NetworkManager.shared.fetchData { [unowned self] courses in
-            let dataStore = CourseListDataStore(courses: courses)
-            presenter.coursesDidReceive(with: dataStore)
-        }
+        let response = CourseList.ShowCourses.Response
+        presenter?.presentCourses(response: response)
     }
 }

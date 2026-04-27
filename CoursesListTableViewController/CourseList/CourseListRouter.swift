@@ -1,18 +1,14 @@
-import Foundation
-
-protocol CourseListRouterInputProtocol {
-    init(view: CourseListViewController)
-    func openCourseDetailsViewController(with course: Course)
+import UIKit
+@objc protocol CourseListRoutingLogic {
+    // func routeToSomewhere(segue: UIStoryboardSegue?)
 }
 
-class CourseListRouter: CourseListRouterInputProtocol {
-    private unowned let view: CourseListViewController
-    
-    required init(view: CourseListViewController) {
-        self.view = view
-    }
-    
-    func openCourseDetailsViewController(with course: Course) {
-        view.performSegue(withIdentifier: "showDetails", sender: course)
-    }
+protocol CourseListDataPassing {
+    var dataStore: CourseListDataStore? { get }
+}
+
+class CourseListRouter: NSObject, CourseListRoutingLogic, CourseListDataPassing {
+    weak var viewController: CourseListViewController?
+
+    var dataStore: CourseListDataStore?
 }

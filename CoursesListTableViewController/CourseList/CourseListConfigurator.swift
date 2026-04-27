@@ -1,15 +1,19 @@
-protocol CourseListConfiguratorImputProtocol {
-    func configure(withView view: CourseListViewController)
-}
+import Foundation
 
-class CourseListConfigurator: CourseListConfiguratorImputProtocol {
-    func configure(withView view: CourseListViewController) {
-        let presenter = CourseListPresenter(view: view)
-        let interactor = CourseListInteractor(presenter: presenter)
-        let router = CourseListRouter(view: view)
-        
-        view.presenter = presenter
-        presenter.interactor = interactor
-        presenter.router = router
+final class CourseListConfigurator {
+    static let shared = CourseListConfigurator()
+    
+    private init() {}
+    
+    func configure(with viewController: CourseListViewController) {
+        let interactor = CourseListInteractor()
+        let presenter = CourseListPresenter ()
+        let router = CourseListRouter()
+        viewController.interactor = interactor
+        viewController.router = router
+        interactor.presenter = presenter
+        presenter.viewController = viewController
+        router.viewController = viewController
+        router.dataStore = interactor
     }
 }
