@@ -13,6 +13,7 @@ enum CourseDetailsModels {
             let numberOfLessons: Int?
             let numberOfTests: Int?
             let imageData: Data?
+            let isFavorite: Bool
         }
         
         struct ViewModel {
@@ -20,6 +21,7 @@ enum CourseDetailsModels {
             let numberOfLessons: String
             let numberOfTests: String
             let imageData: Data
+            let isFavorite: Bool
         }
     }
 }

@@ -13,7 +13,6 @@ class CourseDetailsViewController: UIViewController, CourseDetailsDisplayLogic {
     var course: Course!
     var interactor: CourseDetailsBusinessLogic?
     var router: (NSObjectProtocol & CourseDetailsRoutingLogic & CourseDetailsDataPassing)?
-    private var isFavorite = false
     
     // MARK: Object lifecycle
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -29,40 +28,24 @@ class CourseDetailsViewController: UIViewController, CourseDetailsDisplayLogic {
     // MARK: - View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadFavoriteStatus()
-        setupUI()
         passRequest()
     }
-
+    
     @IBAction func toggleFavorite() {
-        isFavorite.toggle()
-        setStatusForFavoriteButton()
-        DataManager.shared.setFavoriteStatus(for: course.name, with: isFavorite)
     }
-
+    
     private func passRequest() {
         let request = CourseDetails.ShowDetails.Request(course: course)
         interactor?.provideCourseDetails(request: request)
     }
+}
 
-    private func setupUI() {    
-        setStatusForFavoriteButton()
-    }
-
-    private func setStatusForFavoriteButton() {
-        favoriteButton.tintColor = isFavorite ? .red : .gray
-    }
-
-    private func loadFavoriteStatus() {
-        isFavorite = DataManager.shared.getFavoriteStatus(for: course.name)
-    }
-
-    extension CourseDetailsViewController: CourseDetailsDisplayLogic {
-        func displayCourseDetails(viewModel: CourseDetails.ShowDetails.ViewModel) {
-            courseNameLabel.text = viewModel.courseName
-            numberOfLessonsLabel.text = viewModel.numberOfLessons
-            numberOfTestsLabel.text = viewModel.numberOfTests
-            courseImage.image = UIImage(data: viewModel.imageData)
-        }
+extension CourseDetailsViewController: CourseDetailsDisplayLogic {
+    func displayCourseDetails(viewModel: CourseDetails.ShowDetails.ViewModel) {
+        courseNameLabel.text = viewModel.courseName
+        numberOfLessonsLabel.text = viewModel.numberOfLessons
+        numberOfTestsLabel.text = viewModel.numberOfTests
+        courseImage.image = UIImage(data: viewModel.imageData)
+        favoriteButton.tintColor = viewModel.isFavorite ? .systemRed : .systemGray
     }
 }

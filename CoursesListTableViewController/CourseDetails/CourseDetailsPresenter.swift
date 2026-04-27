@@ -15,7 +15,8 @@ class CourseDetailsPresenter: CourseDetailsPresentationLogic {
             courseName: response.courseName ?? "",
             numberOfLessons: numberOfLessons,
             numberOfTests: numberOfTests,
-            imageData: response.imageData ?? Data()
+            imageData: response.imageData ?? Data(),
+            isFavorite: response.isFavorite
         )
         viewController?.displayCourseDetails(viewModel: viewModel)
     }
