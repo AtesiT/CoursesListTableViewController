@@ -16,7 +16,11 @@ class CourseDetailsInteractor: CourseDetailsBusinessLogic, CourseDetailsDataStor
         worker = CourseDetailsWorker()
         worker?.doSomeWork()
 
-        let response = CourseDetails.ShowDetails.Response(courseName: request.course?.name)
+        let response = CourseDetails.ShowDetails.Response(
+            courseName: request.course?.name,
+            numberOfLessons: course?.numberOfLessons,
+            numberOfTests: course?.numberOfTests,
+        )
         presenter?.presentCourseDetails(response: response)
     }
 }
