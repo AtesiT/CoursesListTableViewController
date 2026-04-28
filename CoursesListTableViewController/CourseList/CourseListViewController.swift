@@ -29,9 +29,13 @@ protocol CourseListDisplayLogic: AnyObject {
         
         // MARK: Routing
         override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-            let detailsVC = segue.destination as? CourseDetailsViewController
-            detailsVC?.course = sender as? Course
-        }
+            if let scene = segue.identifier {
+                let selector = NSSelectorFromString ("routeTo\(scene)WithSegue:")
+                if let router = router, router.responds (to: selector) {
+                    router.perform(selector, with: segue)
+                }
+            }
+        } 
         
         private func showCourses() {
             interactor?.fetchCourses()

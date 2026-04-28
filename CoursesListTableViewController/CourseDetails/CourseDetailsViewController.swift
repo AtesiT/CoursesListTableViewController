@@ -11,7 +11,6 @@ class CourseDetailsViewController: UIViewController, CourseDetailsDisplayLogic {
     @IBOutlet private var numberOfTestsLabel: UILabel!
     @IBOutlet private var favoriteButton: UIButton!
     
-    var course: Course!
     var interactor: CourseDetailsBusinessLogic?
     var router: (NSObjectProtocol & CourseDetailsRoutingLogic & CourseDetailsDataPassing)?
     
@@ -37,8 +36,7 @@ class CourseDetailsViewController: UIViewController, CourseDetailsDisplayLogic {
     }
     
     private func passRequest() {
-        let request = CourseDetails.ShowDetails.Request(course: course)
-        interactor?.provideCourseDetails(request: request)
+        interactor?.provideCourseDetails()
     }
 }
 
