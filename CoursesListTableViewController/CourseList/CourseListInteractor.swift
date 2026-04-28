@@ -3,15 +3,19 @@ protocol CourseListBusinessLogic {
 }
 
 protocol CourseListDataStore {
-    
+    var courses: [Course] { get }
 }
 
 class CourseListInteractor: CourseListBusinessLogic, CourseListDataStore {
     
     var presenter: CourseListPresentationLogic?
+    var courses: [Course] = []
     
     func fetchCourses() {
-        let response = CourseList.ShowCourses.Response
-        presenter?.presentCourses(response: response)
+        NetworkManager.shared.fetchData { [weak self] courses in
+            self?.courses = courses
+            let response = CourseList.ShowCourses.Response(courses: courses)
+            self?.presenter?.presentCourses(response: response)
+        }
     }
 }

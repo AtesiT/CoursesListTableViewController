@@ -15,13 +15,12 @@ protocol CourseListDisplayLogic: AnyObject {
         var router: (NSObjectProtocol & CourseListRoutingLogic & CourseListDataPassing)?
         
         private var activityIndicator: UIActivityIndicatorView
-        private var courses: [Course] = []
+        private var rows: [CourseCellViewModelProtcol] = []
         
         // MARK: View lifecycle
         override func viewDidLoad() {
             super.viewDidLoad()
             CourseListConfigurator.shared.configure(with: self)
-            tableView.rowHeight = 100
             activityIndicator = showActivityIndicator(in: view)
             setupNavigationBar()
             getCourses()
@@ -74,15 +73,14 @@ protocol CourseListDisplayLogic: AnyObject {
 // MARK: - UITableViewDataSource
 extension CourseListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return courses.count
+        return rows.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CourseCell", for: indexPath)
+        let cellViewModel = rows[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellViewModel.identifier, for: indexPath)
         guard let cell = cell as? CourseCell else { return UITableViewCell() }
-        let course = courses[indexPath.row]
-        cell.configure(with: course)
+        cell.viewModel = cellViewModel
         return cell
     }
 }
@@ -91,15 +89,19 @@ extension CourseListViewController: UITableViewDataSource {
 extension CourseListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let course = courses[indexPath.row]
-        performSegue(withIdentifier: "showDetails", sender: course)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        rows[indexPath.row].height
     }
 }
 
 // MARK: - CourseListDisplayLogic
 extension CourseListViewController: CourseListDisplayLogic {
     func displayCourses(viewModel: CourseList.ShowCourses.ViewModel) {
-
+        rows = viewModel.rows
+        activityIndicator?.stopAnimating()
+        tableView.reloadData()
     }
 }
 

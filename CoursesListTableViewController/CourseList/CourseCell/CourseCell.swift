@@ -4,9 +4,7 @@ protocol CellModelRepresentable {
     var viewModel: CourseCellViewModelProtcol? { get }
 }
 
-
-
-final class CourseCell: UITableViewCell, CellModelRepresentable {
+class CourseCell: UITableViewCell, CellModelRepresentable {
     var viewModel: CourseCellViewModelProtcol? {
         didSet {
             updateView()
@@ -15,7 +13,7 @@ final class CourseCell: UITableViewCell, CellModelRepresentable {
     
     private func updateView() {
         guard let viewModel = viewModel as? CourseCellViewModel else { return }
-        var content = defaultContentConfiguration()
+        var content = defaultContentConfiquration()
         content.text = viewModel.courseName
         if let imageData = viewModel.imageData {
             content.image = UIImage(data: imageData)
